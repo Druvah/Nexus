@@ -1,0 +1,12 @@
+dev\vorzya\nexuscrypto\settings\Configuration.class
+dev\vorzya\nexuscrypto\hook\VaultHook.class
+dev\vorzya\nexuscrypto\util\NexCryptoValueUpdater.class
+dev\vorzya\nexuscrypto\hook\PlaceHolderHook.class
+dev\vorzya\nexuscrypto\Investment.class
+dev\vorzya\nexuscrypto\util\NexCryptoValueUpdater$1.class
+dev\vorzya\nexuscrypto\commands\NexCoinCmd.class
+dev\vorzya\nexuscrypto\manager\EconomyManager.class
+dev\vorzya\nexuscrypto\util\RandomUtil.class
+dev\vorzya\nexuscrypto\manager\InvestmentManager.class
+dev\vorzya\nexuscrypto\NexusCrypto.class
+dev\vorzya\nexuscrypto\util\SQLiteHelper.class

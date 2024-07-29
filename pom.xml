@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.vorzya</groupId>
+
+    <artifactId>nexuscrypto</artifactId>
+
+    <name>NexusCrypto</name>
+
+    <version>1.0.2</version>
+
+    <packaging>jar</packaging>
+
+    <properties>
+
+        <author>Vorzya</author>
+
+        <main.class>dev.vorzya.nexuscrypto.NexusCrypto</main.class>
+
+        <!-- Change the Java version this plugin is built on.
+
+             IMPORTANT: For Java 8, version is "1.8", for Java 11+ it is only "11" or "17".
+
+             If you use 1.8 then your plugin will work on newer versions, but if you
+             use 17 then it will NOT load on servers with previous Java versions.
+             -->
+        <java.version>1.8</java.version>
+
+
+        <foundation.version>6.8.3</foundation.version>
+
+        <foundation.path>com.github.kangarko</foundation.path>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <!--<dependency>
+            <groupId>paper-server</groupId>
+            <artifactId>Paper-1.20</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/library/patched_1.20.jar</systemPath>
+        </dependency>-->
+
+        <!--<dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>${foundation.path}</groupId>
+            <artifactId>Foundation</artifactId>
+            <version>${foundation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.34.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+
+                <version>3.3.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+
+                <version>3.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <artifactSet>
+                        <includes>
+                            <include>${foundation.path}:Foundation*</include>
+                        </includes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.mineacademy.fo</pattern>
+                            <shadedPattern>${project.groupId}.${project.artifactId}.lib</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

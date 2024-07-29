@@ -1,0 +1,11 @@
+# This is the configuration file for NexusCrypto!
+# Only edit if you know what you're doing.
+# Handle With caution
+
+investment:
+  baseRate: 1.05
+  volatilityFactor: 1.0
+  profitChance: 0.5
+  lossFactor: 0.5
+  NexCryptoToUSDRate: 40
+
