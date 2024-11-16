@@ -32,6 +32,7 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin balance")
+    @CommandPermission("nexcoin.balance")
     public void handleBalanceCommand(Player player, String currencyType) {
         if (!currencyType.equalsIgnoreCase("nexcoin") && !currencyType.equalsIgnoreCase("nexcrypto")) {
             player.sendMessage(ChatColor.RED + "Invalid currency type. Use 'nexcoin' or 'nexcrypto'.");
@@ -47,6 +48,7 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin pay")
+    @CommandPermission("nexcoin.pay")
     public void handlePayCommand(Player player, String targetName, double amount) {
         Player target = Bukkit.getPlayer(targetName);
         if (target == null) {
@@ -65,6 +67,7 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin add")
+    @CommandPermission("nexcoin.add")
     public void handleAddCommand(Player player, String targetName, double amount, String currencyType) {
         if (!currencyType.equalsIgnoreCase("nexcoin") && !currencyType.equalsIgnoreCase("nexcrypto")) {
             player.sendMessage(ChatColor.RED + "Invalid currency type. Use 'nexcoin' or 'nexcrypto'.");
@@ -92,6 +95,7 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin sell")
+    @CommandPermission("nexcoin.sell")
     public void handleSellCommand(Player player, double amount) {
         if (amount <= 0) {
             player.sendMessage(ChatColor.AQUA + "Amount must be " + ChatColor.WHITE + "greater than zero.");
@@ -109,17 +113,19 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin worth")
+    @CommandPermission("nexcoin.worth")
     public void handleWorthCommand(Player player) {
         player.sendMessage(ChatColor.AQUA + "The current worth of NexCoin is: " + ChatColor.WHITE +
                 Configuration.getInstance().getNexCryptoUSDRate() + ChatColor.AQUA + " USD.");
     }
 
     @Command("nexcoin invest")
+    @CommandPermission("nexcoin.invest")
     public void handleInvestCommand(Player player, double amount, String durationString) {
-        String currencyType = "nexcrypto"; // Restrict investment to nexcrypto only
+        String currencyType = "nexcrypto"; // Restrict investment to nexcrypto only (other way around for nexcoin soon)
         int duration = NexCoinUtils.parseDuration(durationString);
 
-        String message = "Investment initiated."; // Default message for investment
+        String message = "Investment initiated."; // Default message for investment // TODO
 
         if (investmentManager.invest(player, amount, duration, currencyType, message)) {
             player.sendMessage(ChatColor.AQUA + "Invested " + ChatColor.WHITE + amount + ChatColor.AQUA +
@@ -130,6 +136,7 @@ public final class NexCoinCmd {
     }
 
     @Command("nexcoin adjustvalue")
+    @CommandPermission("nexcoin.adjustvalue")
     public void handleAdjustValueCommand(Player player, double percentage) {
         if (economyManager.adjustNexCryptoValue(percentage)) {
             player.sendMessage(ChatColor.AQUA + "NexCoin value adjusted by " + ChatColor.WHITE + percentage + ChatColor.AQUA + "%.");
