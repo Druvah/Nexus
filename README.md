@@ -1,6 +1,6 @@
 ## NexCrypto
 
-**NexCrypto** is a powerful, customizable economy plugin for Minecraft that integrates cryptocurrency-like features into the game. Players can use two types of currencies: **NexCoin** (similar to USD) and **NexCrypto** (similar to Bitcoin). This plugin allows players to earn currency, invest in the economy, and experience market volatility, just like in real-world crypto markets.
+**NexCrypto** is a powerful, customizable economy plugin that integrates cryptocurrency-like features into the game. Players can use two types of currencies: **NexCoin** (similar to USD) and **NexCrypto** (similar to Bitcoin). This plugin allows players to earn currency, invest in the economy, and experience market volatility, just like in real-world crypto markets.
 
 With a fully customizable economy system, players can adjust rates, make investments, and track their progress in real-time. The plugin also supports **PlaceholderAPI** integration, making it easy to display essential economy data in-game.
 
