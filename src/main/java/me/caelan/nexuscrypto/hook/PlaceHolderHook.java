@@ -4,6 +4,7 @@ import me.caelan.nexuscrypto.manager.EconomyManager;
 import me.caelan.nexuscrypto.manager.InvestmentManager;
 import me.caelan.nexuscrypto.util.SQLiteHelper;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,7 @@ public class PlaceHolderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0.0";
+        return "1.0.1";
     }
 
     @Override
@@ -57,7 +58,7 @@ public class PlaceHolderHook extends PlaceholderExpansion {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "Coudlnt fetch";
+                    return "Couldn't fetch";
                 }
             }
         }
@@ -65,6 +66,10 @@ public class PlaceHolderHook extends PlaceholderExpansion {
     }
 
     public static void registerHook(EconomyManager economyManager, InvestmentManager investmentManager, SQLiteHelper sqLiteHelper) {
-        new PlaceHolderHook(economyManager, investmentManager, sqLiteHelper).register();
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PlaceHolderHook(economyManager, investmentManager, sqLiteHelper).register();
+        } else {
+            Bukkit.getLogger().warning("PlaceholderAPI is not enabled, skipping Placeholder expansion registration.");
+        }
     }
 }

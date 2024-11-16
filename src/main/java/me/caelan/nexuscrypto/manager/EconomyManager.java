@@ -1,5 +1,6 @@
 package me.caelan.nexuscrypto.manager;
 
+import me.caelan.nexuscrypto.NexusCrypto;
 import me.caelan.nexuscrypto.settings.Configuration;
 import me.caelan.nexuscrypto.util.RandomUtil;
 import me.caelan.nexuscrypto.util.SQLiteHelper;
@@ -21,56 +22,35 @@ public final class EconomyManager {
         this.economy = economy;
         this.sqliteHelper = new SQLiteHelper();
         this.NEXCRYPTO_TO_USD_RATE = Configuration.getInstance().getNexCryptoUSDRate();
-        this.nexCryptoValue = 1.0; //def
+        this.nexCryptoValue = 1.0; // Default value
     }
 
-    //nexcoin
+    // NexCoin Methods
     public double getNexCoinBalance(Player player) {
-        if (player == null) {
-            return 0;
-        }
-        return economy.getBalance(player);
+        return (player == null) ? 0 : economy.getBalance(player);
     }
 
     public boolean payNexCoin(Player from, Player to, double amount) {
-        if (from == null || to == null) {
-            return false;
-        }
+        if (from == null || to == null || amount <= 0) return false;
         return economy.withdrawPlayer(from, amount).transactionSuccess() &&
                 economy.depositPlayer(to, amount).transactionSuccess();
     }
 
     public boolean addNexCoin(Player player, double amount) {
-        if (player == null) {
-            return false;
-        }
-        return economy.depositPlayer(player, amount).transactionSuccess();
+        return (player != null && amount > 0) &&
+                economy.depositPlayer(player, amount).transactionSuccess();
     }
 
-    public boolean addMoney(Player player, double amount) {
-        if (player == null || amount <= 0) {
-            return false;
-        }
-        return economy.depositPlayer(player, amount).transactionSuccess();
-    }
-
-    //nexcrypto
+    // NexCrypto Methods
     public double getNexCryptoBalance(Player player) {
-        if (player == null) {
-            return 0;
-        }
-        return sqliteHelper.getNexCryptoBalance(player.getUniqueId().toString());
+        return (player == null) ? 0 : sqliteHelper.getNexCryptoBalance(player.getUniqueId().toString());
     }
 
     public boolean payNexCrypto(Player from, Player to, double amount) {
-        if (from == null || amount <= 0) {
-            return false;
-        }
+        if (from == null || amount <= 0) return false;
 
         double fromBalance = getNexCryptoBalance(from);
-        if (fromBalance < amount) {
-            return false;
-        }
+        if (fromBalance < amount) return false;
 
         if (sqliteHelper.updateNexCryptoBalance(from.getUniqueId().toString(), fromBalance - amount)) {
             if (to != null) {
@@ -83,89 +63,66 @@ public final class EconomyManager {
     }
 
     public boolean addNexCrypto(Player player, double amount) {
-        if (player == null || amount <= 0) {
-            return false;
-        }
+        if (player == null || amount <= 0) return false;
+
         double currentBalance = getNexCryptoBalance(player);
         return sqliteHelper.updateNexCryptoBalance(player.getUniqueId().toString(), currentBalance + amount);
     }
 
     public boolean subtractNexCrypto(Player player, double amount) {
-        if (player == null || amount <= 0) {
-            return false;
-        }
+        if (player == null || amount <= 0) return false;
+
         double currentBalance = getNexCryptoBalance(player);
-        if (currentBalance < amount) {
-            return false;
-        }
+        if (currentBalance < amount) return false;
+
         return sqliteHelper.updateNexCryptoBalance(player.getUniqueId().toString(), currentBalance - amount);
     }
 
     public boolean sellNexCrypto(Player player, double amount) {
-        if (player == null || amount <= 0) {
-            return false;
-        }
+        if (player == null || amount <= 0) return false;
+
         double currentBalance = getNexCryptoBalance(player);
-        if (currentBalance < amount) {
-            return false;
-        }
+        if (currentBalance < amount) return false;
+
         double usdAmount = amount * NEXCRYPTO_TO_USD_RATE;
         sqliteHelper.updateNexCryptoBalance(player.getUniqueId().toString(), currentBalance - amount);
         return economy.depositPlayer(player, usdAmount).transactionSuccess();
     }
 
-    //nexcrypto fluctuation
+    // NexCrypto Value Fluctuation
     public void updateNexCryptoValues() {
-        for (UUID uuid : sqliteHelper.getAllPlayerUUIDs()) {
+        sqliteHelper.getAllPlayerUUIDs().forEach(uuid -> {
             double currentValue = sqliteHelper.getNexCryptoValue(uuid.toString());
             double newValue = calculateNewValue(currentValue);
             sqliteHelper.updateNexCryptoValue(uuid.toString(), newValue);
-        }
+        });
     }
 
     private double calculateNewValue(double currentValue) {
-        double changePercentage;
+        double changePercentage = RandomUtil.getRandomBoolean()
+                ? RandomUtil.getRandomDouble(-0.05, 0.05) // -5% to +5%
+                : RandomUtil.getRandomDouble(-0.10, 0.10); // -10% to +10%
 
-        //50% chance of increase or decrease with different ranges
-        if (RandomUtil.getRandomBoolean()) {
-            changePercentage = RandomUtil.getRandomDouble(-0.05, 0.05); //random change between -5% to +5%
-        } else {
-            changePercentage = RandomUtil.getRandomDouble(-0.10, 0.10); //random change between -10% to +10%
+        // Quarterly change (every 90 days)
+        if (System.currentTimeMillis() / (1000L * 60 * 60 * 24) % 90 == 0) {
+            changePercentage += (RandomUtil.getRandomBoolean() ? 0.35 : -0.35); // ±35%
         }
 
-        // Quarterly change
-        long daysSinceEpoch = System.currentTimeMillis() / (1000 * 60 * 60 * 24);
-        long daysSinceStart = daysSinceEpoch % 90;
-        if (daysSinceStart == 0) {
-            //every 90 days a change of 35%
-            if (RandomUtil.getRandomBoolean()) {
-                changePercentage += 0.35; //35% increase
-            } else {
-                changePercentage -= 0.35; //35% decrease
-            }
-        }
-
-        double newValue = currentValue * (1.0 + changePercentage);
-        return Math.max(newValue, 0.01); //value will not drop below 0.01
+        return Math.max(currentValue * (1.0 + changePercentage), 0.01); // Prevent dropping below 0.01
     }
 
     public double getNexCryptoValue(Player player) {
-        if (player == null) {
-            return 0;
-        }
-        return sqliteHelper.getNexCryptoValue(player.getUniqueId().toString());
+        return (player == null) ? 0 : sqliteHelper.getNexCryptoValue(player.getUniqueId().toString());
     }
 
     public void setNexCryptoValue(Player player, double value) {
-        if (player == null) {
-            return;
+        if (player != null) {
+            sqliteHelper.updateNexCryptoValue(player.getUniqueId().toString(), value);
         }
-        sqliteHelper.updateNexCryptoValue(player.getUniqueId().toString(), value);
     }
 
     public boolean adjustNexCryptoValue(double percentage) {
-        double currentValue = nexCryptoValue;
-        double newValue = currentValue * (1.0 + (percentage / 100.0));
+        double newValue = nexCryptoValue * (1.0 + (percentage / 100.0));
         nexCryptoValue = Math.max(newValue, 0.01);
         return true;
     }

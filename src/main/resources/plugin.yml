@@ -3,4 +3,5 @@ version: ${project.version}
 main: me.caelan.nexuscrypto.NexusCrypto
 author: ${author}
 api-version: 1.13
+depend: [Vault]
 
