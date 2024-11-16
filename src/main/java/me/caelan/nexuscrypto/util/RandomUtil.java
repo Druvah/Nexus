@@ -1,4 +1,4 @@
-package dev.vorzya.nexuscrypto.util;
+package me.caelan.nexuscrypto.util;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package dev.vorzya.nexuscrypto;
+package me.caelan.nexuscrypto;
 
 import lombok.Getter;
 

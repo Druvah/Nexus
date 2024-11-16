@@ -1,6 +1,6 @@
-package dev.vorzya.nexuscrypto.util;
+package me.caelan.nexuscrypto.util;
 
-import dev.vorzya.nexuscrypto.Investment;
+import me.caelan.nexuscrypto.Investment;
 
 import java.sql.*;
 import java.util.ArrayList;

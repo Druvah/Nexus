@@ -1,8 +1,8 @@
-package dev.vorzya.nexuscrypto.manager;
+package me.caelan.nexuscrypto.manager;
 
-import dev.vorzya.nexuscrypto.settings.Configuration;
-import dev.vorzya.nexuscrypto.util.RandomUtil;
-import dev.vorzya.nexuscrypto.util.SQLiteHelper;
+import me.caelan.nexuscrypto.settings.Configuration;
+import me.caelan.nexuscrypto.util.RandomUtil;
+import me.caelan.nexuscrypto.util.SQLiteHelper;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
@@ -23,7 +23,6 @@ public final class EconomyManager {
         this.NEXCRYPTO_TO_USD_RATE = Configuration.getInstance().getNexCryptoUSDRate();
         this.nexCryptoValue = 1.0; //def
     }
-
 
     //nexcoin
     public double getNexCoinBalance(Player player) {

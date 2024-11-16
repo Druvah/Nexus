@@ -1,8 +1,8 @@
-package dev.vorzya.nexuscrypto.hook;
+package me.caelan.nexuscrypto.hook;
 
-import dev.vorzya.nexuscrypto.manager.EconomyManager;
-import dev.vorzya.nexuscrypto.manager.InvestmentManager;
-import dev.vorzya.nexuscrypto.util.SQLiteHelper;
+import me.caelan.nexuscrypto.manager.EconomyManager;
+import me.caelan.nexuscrypto.manager.InvestmentManager;
+import me.caelan.nexuscrypto.util.SQLiteHelper;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -44,20 +44,20 @@ public class PlaceHolderHook extends PlaceholderExpansion {
             if (player != null) {
                 try {
                     switch (params.toLowerCase()) {
-                        case "coinbalance":
+                        case "nexcoin_balance":
                             return String.valueOf(economyManager.getNexCoinBalance(player));
-                        case "cryptobalance":
+                        case "nexcrypto_balance":
                             return String.valueOf(economyManager.getNexCryptoBalance(player));
-                        case "cryptoinvested":
+                        case "nexcrypto_invested":
                             return String.valueOf(investmentManager.getTotalNexCryptoInvested(player));
-                        case "cryptoworth":
+                        case "nexcrypto_worth":
                             return String.valueOf(economyManager.getNEXCRYPTO_TO_USD_RATE());
                         default:
                             return null;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "fuckery error";
+                    return "Coudlnt fetch";
                 }
             }
         }

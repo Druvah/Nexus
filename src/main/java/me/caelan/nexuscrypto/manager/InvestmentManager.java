@@ -1,14 +1,14 @@
-package dev.vorzya.nexuscrypto.manager;
+package me.caelan.nexuscrypto.manager;
 
-import dev.vorzya.nexuscrypto.Investment;
-import dev.vorzya.nexuscrypto.NexusCrypto;
-import dev.vorzya.nexuscrypto.settings.Configuration;
-import dev.vorzya.nexuscrypto.util.SQLiteHelper;
+import me.caelan.nexuscrypto.Investment;
+import me.caelan.nexuscrypto.NexusCrypto;
+import me.caelan.nexuscrypto.settings.Configuration;
+import me.caelan.nexuscrypto.util.Remain;
+import me.caelan.nexuscrypto.util.SQLiteHelper;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.mineacademy.fo.remain.Remain;
 
 import java.util.*;
 
@@ -100,10 +100,10 @@ public class InvestmentManager {
 
         if (isProfit) {
             if ("nexcoin".equalsIgnoreCase(investment.getCurrencyType())) {
-                economyManager.addNexCoin(player, totalAmount); //deposit initial amount + profit
+                economyManager.addNexCoin(player, totalAmount);
                 player.sendMessage(ChatColor.GOLD + "Your investment of " + ChatColor.GREEN + investment.getAmount() + " " + ChatColor.YELLOW + "NexCoin" + ChatColor.GOLD + " is complete. You earned " + ChatColor.GREEN + result + " NexCoin, total returned: " + ChatColor.GREEN + totalAmount + " NexCoin.");
             } else if ("nexcrypto".equalsIgnoreCase(investment.getCurrencyType())) {
-                economyManager.addNexCrypto(player, totalAmount); //deposit initial amount + profit
+                economyManager.addNexCrypto(player, totalAmount);
                 player.sendMessage(ChatColor.GOLD + "Your investment of " + ChatColor.GREEN + investment.getAmount() + " " + ChatColor.YELLOW + "NexCrypto" + ChatColor.GOLD + " is complete. You earned " + ChatColor.GREEN + result + " NexCrypto, total returned: " + ChatColor.GREEN + totalAmount + " NexCrypto.");
                 Remain.sendActionBar(player, "&6Profits: " + totalAmount);
             }
@@ -124,14 +124,14 @@ public class InvestmentManager {
 
     private double calculateReturn(double amount, long startTime, long endTime) {
         long duration = endTime - startTime;
-        double baseRate = configuration.getDouble("baseRate");
-        double volatility = configuration.getDouble("volatilityFactor");
+        double baseRate = configuration.getBaseRate();
+        double volatility = configuration.getVolatility();
 
         double profitMultiplier = baseRate + (volatility * (duration / (60 * 60 * 1000)));
-        if (Math.random() > configuration.getDouble("profitChance")) {
-            return amount * profitMultiplier - amount; //subtract initial investment to get profit
+        if (Math.random() > configuration.getProfitChance()) {
+            return amount * profitMultiplier - amount;
         } else {
-            return amount * (1 - (volatility * configuration.getDouble("lossFactor"))) - amount; //subtract initial investment to get loss
+            return amount * (1 - (volatility * configuration.getLossFactor())) - amount;
         }
     }
 
