@@ -27,27 +27,34 @@ With a fully customizable economy system, players can adjust rates, make investm
 - **SQLite Integration**: The plugin stores all player data in an SQLite database, making it lightweight and efficient.
 
 - **Command List**:
-  - `/balance [nexcoin|nexcrypto] [player]`: View the balance of **NexCoin** or **NexCrypto** for a specific player.
-  - `/pay [player] [amount] [nexcoin|nexcrypto]`: Pay a player in **NexCoin** or **NexCrypto**.
-  - `/add [player] [amount] [nexcoin|nexcrypto]`: Add currency to a player’s balance.
-  - `/sell [amount] [nexcoin|nexcrypto]`: Sell items for **NexCoin** or **NexCrypto**.
-  - `/worth [nexcoin|nexcrypto]`: Check the current worth of **NexCoin** or **NexCrypto**.
-  - `/invest [amount] [nexcoin|nexcrypto] [duration|percentage]`: Make an investment with **NexCoin** or **NexCrypto**.
-  - `/adjustvalue [nexcoin|nexcrypto] [value]`: Adjust the value of **NexCoin** or **NexCrypto**.
- 
+  - `/nexcoin balance nexcoin [player]`: View the **NexCoin** balance for a specific player.
+  - `/nexcoin balance nexcrypto [player]`: View the **NexCrypto** balance for a specific player.
+  - `/nexcoin pay [player] [amount] nexcoin`: Pay a player in **NexCoin**.
+  - `/nexcoin pay [player] [amount] nexcrypto`: Pay a player in **NexCrypto**.
+  - `/nexcoin add [player] [amount] nexcoin`: Add **NexCoin** to a player’s balance.
+  - `/nexcoin add [player] [amount] nexcrypto`: Add **NexCrypto** to a player’s balance.
+  - `/nexcoin sell [amount] nexcoin`: Sell items for **NexCoin**.
+  - `/nexcoin sell [amount] nexcrypto`: Sell items for **NexCrypto**.
+  - `/nexcoin worth nexcoin`: Check the current worth of **NexCoin**.
+  - `/nexcoin worth nexcrypto`: Check the current worth of **NexCrypto**.
+  - `/nexcoin invest [amount] nexcoin [duration|percentage]`: Make an investment with **NexCoin**.
+  - `/nexcoin invest [amount] nexcrypto [duration|percentage]`: Make an investment with **NexCrypto**.
+  - `/nexcoin adjustvalue nexcoin [value]`: Adjust the value of **NexCoin**.
+  - `/nexcoin adjustvalue nexcrypto [value]`: Adjust the value of **NexCrypto**.
+
 ## Requirements
-- Must have Vault plugin running on the server.
+- Must have **Vault** plugin running on the server.
 
 ## How to Setup
 
-1. Download the plugin and place the JAR file in the `plugins` folder of your spigot server.
+1. Download the plugin and place the JAR file in the `plugins` folder of your Spigot server.
 2. Start your server. This will generate a `config.yml` file.
 3. Stop the server and configure `config.yml` according to your preferences.
-4. Restart your server
+4. Restart your server.
 
 ## Building
 
-To compile NexusCrypto plugin, you’ll need:
+To compile **NexCrypto** plugin, you’ll need:
 
-- JDK 17 (or above)
-- Maven: run `mvn clean install` to build.
+- **JDK 17** (or above)
+- **Maven**: run `mvn clean install` to build.
