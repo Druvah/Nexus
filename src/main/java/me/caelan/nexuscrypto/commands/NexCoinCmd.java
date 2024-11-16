@@ -17,7 +17,15 @@ public final class NexCoinCmd {
 
     @Command("nexcoin")
     public void onCommand(Player player) {
-        player.sendMessage(ChatColor.RED + "Usage: /nexcoin <balance|pay|add|sell|worth|invest|adjustvalue>");
+        player.sendMessage(ChatColor.AQUA + "---- " + ChatColor.WHITE + "NexCoin Help Menu" + ChatColor.AQUA + " ----");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin balance " + ChatColor.WHITE + "[player]" + ChatColor.AQUA + " - View the balance of NexCoin for a specific player.");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin pay " + ChatColor.WHITE + "[player] [amount]" + ChatColor.AQUA + " - Pay a player in NexCoin.");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin add " + ChatColor.WHITE + "[player] [amount]" + ChatColor.AQUA + " - Add NexCoin to a player’s balance.");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin sell " + ChatColor.WHITE + "[amount]" + ChatColor.AQUA + " - Sell items for NexCoin.");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin worth " + ChatColor.AQUA + " - Check the current worth of NexCoin.");
+        player.sendMessage(ChatColor.AQUA + "/nexcoin invest " + ChatColor.WHITE + "[amount] [duration|percentage]" + ChatColor.AQUA + " - Make an investment with NexCoin.");
+        player.sendMessage(ChatColor.AQUA + "/nexcrypto adjustvalue " + ChatColor.WHITE + "[value]" + ChatColor.AQUA + " - Adjust the value of NexCoin.");
+        player.sendMessage(ChatColor.AQUA + "-------------------------------");
     }
 
     @Command("nexcoin balance")
