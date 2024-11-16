@@ -35,7 +35,7 @@ With a fully customizable economy system, players can adjust rates, make investm
   - `/invest [amount] [nexcoin|nexcrypto] [duration|percentage]`: Make an investment with **NexCoin** or **NexCrypto**.
   - `/adjustvalue [nexcoin|nexcrypto] [value]`: Adjust the value of **NexCoin** or **NexCrypto**.
  
-  ## Requirements
+## Requirements
 - Must have Vault plugin running on the server.
 
 ## How to Setup
